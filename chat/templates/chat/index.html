@@ -1,26 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <title>Chat Rooms</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hack Terminal - Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px 0px rgba(0, 255, 0, 0.7); }
+            50% { text-shadow: -2px -2px 0px rgba(0, 255, 0, 0.5); }
+            100% { text-shadow: 2px 2px 0px rgba(0, 255, 0, 0.7); }
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0d0d0d;
+            color: #00ff00;
+            overflow: hidden;
+        }
+
+        .glassmorphic {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            box-shadow: 0px 0px 12px rgba(0, 255, 0, 0.2);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+
+        .glitch-text {
+            animation: glitch 1s infinite alternate;
+        }
+    </style>
 </head>
-<body>
-    What chat room would you like to enter?<br>
-    <input id="room-name-input" type="text" size="100"><br>
-    <input id="room-name-submit" type="button" value="Enter">
+<body class="flex items-center justify-center min-h-screen">
+
+    <div class="glassmorphic rounded-lg p-8 w-96 text-center">
+        <h1 class="text-3xl font-bold mb-4 glitch-text">[ Access Granted ]</h1>
+        <p class="mb-6 text-green-400">Enter a chat room name to continue...</p>
+        
+        <input 
+            id="room-name-input" 
+            type="text" 
+            placeholder="Enter room name..."
+            class="w-full px-4 py-3 border border-green-500 bg-black text-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+        />
+        
+        <button 
+            id="room-name-submit" 
+            class="w-full mt-4 bg-green-600 hover:bg-green-700 text-black font-semibold py-3 rounded-lg transition duration-300 shadow-md"
+        >
+            Connect
+        </button>
+    </div>
 
     <script>
         document.querySelector('#room-name-input').focus();
+
         document.querySelector('#room-name-input').onkeyup = function(e) {
-            if (e.key === 'Enter') {  // enter, return
+            if (e.key === 'Enter') {  
                 document.querySelector('#room-name-submit').click();
             }
         };
 
-        document.querySelector('#room-name-submit').onclick = function(e) {
-            var roomName = document.querySelector('#room-name-input').value;
-            window.location.pathname = '/chat/' + roomName + '/';
+        document.querySelector('#room-name-submit').onclick = function() {
+            var roomName = document.querySelector('#room-name-input').value.trim();
+            if (roomName) {
+                window.location.pathname = '/chat/' + encodeURIComponent(roomName) + '/';
+            } else {
+                alert("Access Denied: Room name required.");
+            }
         };
     </script>
+
 </body>
 </html>
