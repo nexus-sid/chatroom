@@ -1,0 +1,4 @@
+chat_virtual/
+.env
+*.pyc
+__pycache__/
